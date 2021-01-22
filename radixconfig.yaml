@@ -1,0 +1,17 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: library
+spec:
+  environments:
+    - name: single
+      build:
+        from: master
+  components:
+    - name: api
+      src: "."
+      ports:
+        - name: http
+          port: 8080
+      publicPort: http
+      

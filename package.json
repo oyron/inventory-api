@@ -1,0 +1,34 @@
+{
+  "name": "library-api",
+  "version": "1.0.0",
+  "description": "Library API",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oyron/library-api.git"
+  },
+  "scripts": {
+    "test": "mocha src/test/test-*.js",
+    "start": "node src/server.js",
+    "local": "nodemon src/server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dateformat": "^4.4.2",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "path": "^0.12.7",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^7.18.0",
+    "eslint-plugin-node": "^11.1.0",
+    "mocha": "^8.2.1",
+    "nodemon": "^2.0.7"
+  }
+}
