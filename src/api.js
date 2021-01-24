@@ -2,17 +2,14 @@ const express = require('express');
 const router = express.Router();
 const logger = require("./logger");
 const Library = require("./library");
-//const permit = require('./auth/permission');
-
-const permit = () => (_req, _res, next) => next();
-
+const verifyToken = require('./auth/verifyToken');
 
 router.all('*', logRequest);
-router.get('/books', permit('LibraryReader', 'LibraryAdmin'), getBooks);
-router.post('/books', permit('LibraryAdmin'), addBook);
-router.get('/books/:id', permit('LibraryReader', 'LibraryAdmin'), getBook);
-router.put('/books/:id', permit('LibraryAdmin'), updateBook);
-router.delete('/books/:id', permit('LibraryAdmin'), deleteBook);
+router.get('/books', verifyToken, getBooks);
+router.post('/books', verifyToken, addBook);
+router.get('/books/:id', verifyToken, getBook);
+router.put('/books/:id', verifyToken, updateBook);
+router.delete('/books/:id', verifyToken, deleteBook);
 router.use(unknownRouteHandler);
 router.use(errorHandler);
 
