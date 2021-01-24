@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const logger = require("../logger");
-const Library = require("../library");
+const BookInventory = require("../bookInventory");
 
 function api(authModule) {
 
@@ -15,16 +15,16 @@ function api(authModule) {
     router.use(unknownRouteHandler);
     router.use(errorHandler);
 
-    const library = new Library();
+    const bookInventory = new BookInventory();
 
     function getBooks(_req, res) {
-        res.send(library.getAllBooks());
+        res.send(bookInventory.getAllBooks());
     }
 
     function getBook(req, res) {
         const bookId =req.params.id;
-        if (library.hasBookId(bookId)) {
-            res.send(library.getBook(bookId));
+        if (bookInventory.hasBookId(bookId)) {
+            res.send(bookInventory.getBook(bookId));
         }
         else {
             res.status(404).send(`Book with id ${bookId} not found`);
@@ -33,16 +33,16 @@ function api(authModule) {
 
     function addBook(req, res) {
         const bookData = req.body;
-        const book = library.addBook(bookData.title, bookData.author);
+        const book = bookInventory.addBook(bookData.title, bookData.author);
         res.location(`/api/books/${book.id}`);
         res.status(201).send(book);
     }
 
     function updateBook(req, res) {
         const bookId = req.params.id;
-        if (library.hasBookId(bookId)) {
+        if (bookInventory.hasBookId(bookId)) {
             const bookData = req.body;
-            const book = library.updateBook(bookId, bookData.title, bookData.author);
+            const book = bookInventory.updateBook(bookId, bookData.title, bookData.author);
             res.send(book);
         }
         else {
@@ -52,8 +52,8 @@ function api(authModule) {
 
     function deleteBook(req, res) {
         const bookId = req.params.id;
-        if (library.hasBookId(bookId)) {
-            library.deleteBook(bookId);
+        if (bookInventory.hasBookId(bookId)) {
+            bookInventory.deleteBook(bookId);
             res.sendStatus(204);
         }
         else {

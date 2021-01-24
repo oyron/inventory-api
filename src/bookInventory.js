@@ -1,4 +1,4 @@
-class Library {
+class BookInvetory {
     constructor() {
         this.uid = 0;
         this.books = new Map();
@@ -47,4 +47,4 @@ function toNumber(possibleStringValue) {
     return Number(possibleStringValue);
 }
 
-module.exports = Library;
+module.exports = BookInvetory;
