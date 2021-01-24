@@ -2,7 +2,10 @@ process.env.LOG_LEVEL = "error";
 const chai = require('chai');
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
-const app = require('../app')((req, res, next) => next());
+const authModule = {
+    verifyToken: (_req, _res, next) => next()
+};
+const app = require('../app')(authModule);
 chai.use(chaiHttp);
 
 

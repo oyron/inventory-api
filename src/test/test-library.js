@@ -1,22 +1,22 @@
 const expect = require('chai').expect;
 
-describe("Library", function() {
-    const Library = require('../Library');
-    let library;
+describe("BookInventory", function() {
+    const BookInventory = require('../bookInventory');
+    let bookInventory;
 
     beforeEach(function() {
-        library = new Library();
+        bookInventory = new BookInventory();
     });
 
 
     it("should be possible to list all books", function() {
-        const books = library.getAllBooks();
+        const books = bookInventory.getAllBooks();
         expect(books).to.be.an("array");
     });
 
 
     it("should be possible to get a single book, by numeric id", function() {
-        const book = library.getBook(1);
+        const book = bookInventory.getBook(1);
         expect(book).to.be.an("object");
         expect(book.id).to.be.a("number");
         expect(book.author).to.be.a("string");
@@ -25,7 +25,7 @@ describe("Library", function() {
 
 
     it("should be possible to get a single book, by string id", function() {
-        const book = library.getBook("1");
+        const book = bookInventory.getBook("1");
         expect(book).to.be.an("object");
     });
 
@@ -33,7 +33,7 @@ describe("Library", function() {
     it("should be possible to add a new book", function() {
         const title = "The Statoil Book";
         const author = "Eldar Sætre";
-        const book = library.addBook(title, author);
+        const book = bookInventory.addBook(title, author);
         expect(book).to.be.an("object");
         expect(book.id).to.be.a("number");
         expect(book.author).to.equal(author);
@@ -45,8 +45,8 @@ describe("Library", function() {
         const title = "The Statoil Book";
         const author = "Eldar Sætre";
         const bookId = 1;
-        expect(library.hasBookId(bookId)).to.be.true;
-        const book = library.updateBook(bookId, title, author);
+        expect(bookInventory.hasBookId(bookId)).to.be.true;
+        const book = bookInventory.updateBook(bookId, title, author);
         expect(book).to.be.an("object");
         expect(book.id).to.equal(bookId);
         expect(book.author).to.equal(author);
@@ -58,8 +58,8 @@ describe("Library", function() {
         const title = "The Statoil Book";
         const author = "Eldar Sætre";
         const bookId = "1";
-        expect(library.hasBookId(bookId)).to.be.true;
-        const book = library.updateBook(bookId, title, author);
+        expect(bookInventory.hasBookId(bookId)).to.be.true;
+        const book = bookInventory.updateBook(bookId, title, author);
         expect(book).to.be.an("object");
         expect(book.id).to.equal(Number(bookId));
         expect(book.author).to.equal(author);
@@ -69,17 +69,17 @@ describe("Library", function() {
 
     it("should be possible to delete an existing book, by numeric id", function() {
         const bookId = 1;
-        expect(library.hasBookId(bookId)).to.be.true;
-        library.deleteBook(bookId);
-        expect(library.hasBookId(bookId)).to.be.false;
+        expect(bookInventory.hasBookId(bookId)).to.be.true;
+        bookInventory.deleteBook(bookId);
+        expect(bookInventory.hasBookId(bookId)).to.be.false;
     });
 
 
     it("should be possible to delete an existing book, by string id", function() {
         const bookId = "1";
-        expect(library.hasBookId(bookId)).to.be.true;
-        library.deleteBook(bookId);
-        expect(library.hasBookId(bookId)).to.be.false;
+        expect(bookInventory.hasBookId(bookId)).to.be.true;
+        bookInventory.deleteBook(bookId);
+        expect(bookInventory.hasBookId(bookId)).to.be.false;
     });
 
 
