@@ -1,12 +1,12 @@
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 metadata:
-  name: library
+  name: inventory
 spec:
   environments:
     - name: single
       build:
-        from: master
+        from: main
   components:
     - name: api
       src: "."
