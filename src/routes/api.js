@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const logger = require("./logger");
-const Library = require("./library");
+const logger = require("../logger");
+const Library = require("../library");
 
+function api(authModule) {
 
-function api(verifyToken) {
-
+    router.all('*', authModule.verifyToken);
     router.all('*', logRequest);
-    router.get('/books', verifyToken, getBooks);
-    router.post('/books', verifyToken, addBook);
-    router.get('/books/:id', verifyToken, getBook);
-    router.put('/books/:id', verifyToken, updateBook);
-    router.delete('/books/:id', verifyToken, deleteBook);
+    router.get('/books', getBooks);
+    router.post('/books', addBook);
+    router.get('/books/:id', getBook);
+    router.put('/books/:id', updateBook);
+    router.delete('/books/:id', deleteBook);
     router.use(unknownRouteHandler);
     router.use(errorHandler);
 

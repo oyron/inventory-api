@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
-const jwksClient = require('jwks-rsa');
+const jwksRsa = require('jwks-rsa');
 
-const client = jwksClient({
+const jwksClient = jwksRsa({
     jwksUri: 'https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/discovery/v2.0/keys'
 });
 
 function getKey(header, callback){
-    client.getSigningKey(header.kid, function(err, key) {
+    jwksClient.getSigningKey(header.kid, function(err, key) {
         const signingKey = key.publicKey || key.rsaPublicKey;
         callback(null, signingKey);
     });
@@ -21,7 +21,7 @@ const validateOptions = {
     "audience" : "api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742",
     "issuer": "https://sts.windows.net/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/",
     "maxAge": "1h"
-  };
+};
 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -43,4 +43,6 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-module.exports = verifyToken;
+module.exports = {
+    verifyToken
+};
