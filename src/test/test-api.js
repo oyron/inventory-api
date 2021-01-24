@@ -2,13 +2,13 @@ process.env.LOG_LEVEL = "error";
 const chai = require('chai');
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
-const server = require('../server');
+const app = require('../app')((req, res, next) => next());
 chai.use(chaiHttp);
 
 
 describe('/GET api/books', () => {
     it('should GET all the books', (done) => {
-        chai.request(server)
+        chai.request(app)
             .get('/api/books')
             .end((err, res) => {
                 expect(err).to.be.null;
@@ -22,7 +22,7 @@ describe('/GET api/books', () => {
 
 describe('/GET api/books/{id}', () => {
     it('should be possible to GET a book by id', (done) => {
-        chai.request(server)
+        chai.request(app)
             .get('/api/books/0')
             .end((err, res) => {
                 expect(err).to.be.null;
@@ -37,7 +37,7 @@ describe('/GET api/books/{id}', () => {
     });
 
     it('should return 404 if book id is not found', (done) => {
-        chai.request(server)
+        chai.request(app)
             .get('/api/books/99')
             .end((err, res) => {
                 verify404(err, res);
@@ -52,7 +52,7 @@ describe('/POST api/books', () => {
         const author = "Eldar Sætre";
         const title  = "The Statoil Book";
 
-        chai.request(server)
+        chai.request(app)
             .post('/api/books')
             .send({author, title})
             .end((err, res) => {
@@ -74,7 +74,7 @@ describe('/PUT api/books/{id}', () => {
         const author = "Eldar Sætre";
         const title  = "The Statoil Book";
 
-        chai.request(server)
+        chai.request(app)
             .put(`/api/books/${bookId}`)
             .send({author, title})
             .end((err, res) => {
@@ -89,7 +89,7 @@ describe('/PUT api/books/{id}', () => {
     });
 
     it('should return 404 if book id is not found', (done) => {
-        chai.request(server)
+        chai.request(app)
             .put('/api/books/99')
             .send({author: "Eldar Sætre", title: "The Statoil Book"})
             .end((err, res) => {
@@ -99,7 +99,7 @@ describe('/PUT api/books/{id}', () => {
     });
 
     it('should return 400 if book id is not provided', (done) => {
-        chai.request(server)
+        chai.request(app)
             .put('/api/books/')
             .end((err, res) => {
                 verify400(err, res);
@@ -112,7 +112,7 @@ describe('/PUT api/books/{id}', () => {
 describe('/DELETE api/books/{id}', () => {
     it('should be possible to delete a book by id', (done) => {
 
-        chai.request(server)
+        chai.request(app)
             .delete('/api/books/1')
             .end((err, res) => {
                 expect(err).to.be.null;
@@ -123,7 +123,7 @@ describe('/DELETE api/books/{id}', () => {
     });
 
     it('should return 404 if book id is not found', (done) => {
-        chai.request(server)
+        chai.request(app)
             .delete('/api/books/99')
             .end((err, res) => {
                 verify404(err, res);
@@ -132,7 +132,7 @@ describe('/DELETE api/books/{id}', () => {
     });
 
     it('should return 400 if book id is not provided', (done) => {
-        chai.request(server)
+        chai.request(app)
             .delete('/api/books/')
             .end((err, res) => {
                 verify400(err, res);
