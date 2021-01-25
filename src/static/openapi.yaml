@@ -9,6 +9,7 @@ info:
     url: 'https://github.com/equinor/api-strategy'
     email: oyron@equinor.com
 servers:
+  - url: 'https://api-dev.gateway.equinor.com/inventory-demo'
   - url: 'https://api-inventory-single.playground.radix.equinor.com/api'
 tags:
   - name: inventory
@@ -159,11 +160,11 @@ paths:
 
 components:
   securitySchemes:
-    oAuth2:    # <---- arbitrary name
+    oAuth2:
       type: oauth2
       description: This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)
       flows:
-        implicit:   # <---- OAuth flow(authorizationCode, implicit, password or clientCredentials)
+        implicit:
           authorizationUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/authorize
           scopes:
             api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite: Read and write to book inventory
