@@ -27,14 +27,14 @@ const verifyToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (! authHeader) {
-        res.sendStatus(401);
+        res.status(401).send("Missing access token");
     }
     else{
         const token = authHeader.split(' ')[1];
 
         jwt.verify(token, getKey, validateOptions, function(err, decoded) {
             if (err || ! validScope(decoded)) {
-                return res.sendStatus(403);
+                return res.status(403).send("Invalid access token");
             }
             //req.user = decoded;
             next();

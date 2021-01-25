@@ -3,13 +3,13 @@ info:
   title: Inventory API
   description: Inventory API - Demo API
   version: 1.0.0
-  termsOfService: 'https://lib.azurewebsites.net/terms.html'
+  termsOfService: 'https://api-inventory-single.playground.radix.equinor.com/terms.html'
   contact:
     name: 'Øyvind Rønne'
     url: 'https://github.com/equinor/api-strategy'
     email: oyron@equinor.com
 servers:
-  - url: 'https://lib.azurewebsites.net/api'
+  - url: 'https://api-inventory-single.playground.radix.equinor.com/api'
 tags:
   - name: inventory
     description: An inventory of books
@@ -19,6 +19,8 @@ paths:
       tags:
         - inventory
       summary: Return all books
+      security: 
+        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]
       operationId: getBooks
       responses:
         '200':
@@ -29,11 +31,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Book'
+        '401':
+          description: Authorization information is missing
+        '403':
+          description: Authorization information is invalid
                   
     post:
         tags:
           - inventory
         summary: Add a new book to the inventory
+        security: 
+        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]
         operationId: addBook
         requestBody:
           description: bookData object that needs to be added to the inventory
@@ -49,12 +57,18 @@ paths:
                 schema:
                   items:
                     $ref: '#/components/schemas/Book'
+          '401':
+            description: Authorization information is missing
+          '403':
+            description: Authorization information is invalid
                     
   /books/{id}:
     get:
       tags:
         - inventory
       summary: Get a specific book
+      security: 
+        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]      
       operationId: getBook
       parameters:
         - name: id
@@ -73,6 +87,10 @@ paths:
                   $ref: '#/components/schemas/Book'
         '400':
           description: Bad request
+        '401':
+          description: Authorization information is missing
+        '403':
+          description: Authorization information is invalid
         '404':
           description: Not found
 
@@ -80,6 +98,8 @@ paths:
       tags:
         - inventory
       summary: Update existing book
+      security: 
+        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]
       operationId: updateBook
       parameters:
         - name: id
@@ -104,6 +124,10 @@ paths:
                   $ref: '#/components/schemas/Book'
         '400':
           description: Bad request
+        '401':
+          description: Authorization information is missing
+        '403':
+          description: Authorization information is invalid
         '404':
           description: Not found
 
@@ -111,6 +135,8 @@ paths:
       tags:
         - inventory
       summary: Delete existing book
+      security: 
+        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]
       operationId: deleteBook
       parameters:
         - name: id
@@ -124,10 +150,23 @@ paths:
           description: No content
         '400':
           description: Bad request
+        '401':
+          description: Authorization information is missing
+        '403':
+          description: Authorization information is invalid
         '404':
           description: Not found
 
 components:
+  securitySchemes:
+    oAuth2:    # <---- arbitrary name
+      type: oauth2
+      description: This API uses OAuth 2 with the implicit grant flow. [More info](https://api.example.com/docs/auth)
+      flows:
+        implicit:   # <---- OAuth flow(authorizationCode, implicit, password or clientCredentials)
+          authorizationUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/authorize
+          scopes:
+            api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite: Read and write to book inventory
   schemas:
     Book:
       type: object
@@ -148,4 +187,4 @@ components:
   
 externalDocs:
   description: API documentation
-  url: 'https://github.com/equinor/api-strategy'
+  url: 'https://github.com/oyron/inventory-api'
