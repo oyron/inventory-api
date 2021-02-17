@@ -9,7 +9,7 @@ spec:
         from: main
   components:
     - name: api
-      src: "."
+      src: "node-js"
       ports:
         - name: http
           port: 8080
