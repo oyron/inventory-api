@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "277a7779-0fb5-45c4-8d81-063aa80ea904",
+		"name": "Inventory API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Books",
+			"item": [
+				{
+					"name": "Get books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST URL}}/books",
+							"host": [
+								"{{HOST URL}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get book",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST URL}}/books/1",
+							"host": [
+								"{{HOST URL}}"
+							],
+							"path": [
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add book",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"The Hobbit\", \n\t\"author\": \"J.R.R. Tolkien\"\n}"
+						},
+						"url": {
+							"raw": "{{HOST URL}}/books",
+							"host": [
+								"{{HOST URL}}"
+							],
+							"path": [
+								"books"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete book",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{HOST URL}}/books/2",
+							"host": [
+								"{{HOST URL}}"
+							],
+							"path": [
+								"books",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update book",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"The Equinor Book\", \n\t\"author\": \"Anders Opedal\"\n}"
+						},
+						"url": {
+							"raw": "{{HOST URL}}/books/1",
+							"host": [
+								"{{HOST URL}}"
+							],
+							"path": [
+								"books",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST URL",
+			"value": "http://localhost:3100"
+		},
+		{
+			"key": "TOKEN",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyIsImtpZCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyJ9.eyJhdWQiOiJhcGk6Ly9jMWQ4NWJkMy1lMDBlLTQ5MmItOWI1Yi1lOGNkODFjNWE3NDIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8zYWE0YTIzNS1iNmUyLTQ4ZDUtOTE5NS03ZmNmMDViNDU5YjAvIiwiaWF0IjoxNjExNTc3Mjc1LCJuYmYiOjE2MTE1NzcyNzUsImV4cCI6MTYxMTU4MTE3NSwiYWNyIjoiMSIsImFpbyI6IkFVUUF1LzhTQUFBQXhwWGlnN1pFY2VkTWxqMEludWZsciszTDNURmZnNWFZc3g2aXdOb3BWbERpQURPbEcweGJLUkVvTDQyRDlKQUVDVEtxaVlieVRwdHQzVmw2VkFZMVRBPT0iLCJhbXIiOlsicnNhIiwibWZhIl0sImFwcGlkIjoiNDUxYjAwMDktMmRmYi00YTk5LWIyOWQtOTY5N2FhMDI0OTFmIiwiYXBwaWRhY3IiOiIwIiwiZmFtaWx5X25hbWUiOiJSw7hubmUiLCJnaXZlbl9uYW1lIjoiw5h5dmluZCIsImlwYWRkciI6IjE4NS4xMzguMzUuMTIwIiwibmFtZSI6IsOYeXZpbmQgUsO4bm5lIiwib2lkIjoiMGM2NWQyMjAtZDUxNy00ZjZjLWI1NDMtZDk0NTdkZjAwYjFlIiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTIyMDUyMzM4OC0xMDg1MDMxMjE0LTcyNTM0NTU0My0xMjAyOTY3IiwicmgiOiIwLkFBQUFOYUtrT3VLMjFVaVJsWF9QQmJSWnNBa0FHMFg3TFpsS3NwMldsNm9DU1I4Q0FHNC4iLCJzY3AiOiJJbnZlbnRvcnkuYm9va3MuUmVhZFdyaXRlIiwic3ViIjoibjA2RTVMbHdNVzF6emxubWNYeWI0c3ZWdnBndDNySmxwRDVHclhpLWNoRSIsInRpZCI6IjNhYTRhMjM1LWI2ZTItNDhkNS05MTk1LTdmY2YwNWI0NTliMCIsInVuaXF1ZV9uYW1lIjoiT1lST05AZXF1aW5vci5jb20iLCJ1cG4iOiJPWVJPTkBlcXVpbm9yLmNvbSIsInV0aSI6IlZQNl9rSm5wWGtDeGg3bk1QWHRpQUEiLCJ2ZXIiOiIxLjAifQ.NqrVMSzsIEsifU4IEuJq028agHJBNbBprXy8-yLCSxw1rk8PMIu5CoHyIY1oP0KpRvT0o4jR5e5fSREXHFq_28z-2rr0qLhr0ysa88K-xafyY_Ki7BtSF_K6cNHsMCg-TuJJ9yfUOwPHSb3Is7lqztfIe0vN0Nyl7n3j83ZYSaitZR2AgW6r-wtvYU6QOO-Vd8ALs6zFIoltl4h4VhAcmJkOxvB7SMGetNljAWuffNs0_ACZLuLbPOJmV3cjOmEvZLbqpfrSk6IsmHyotYYxuKDn8qopbqgOpTvmXxrhURLj4IVE3_wqsae_IpQnpjDYhj1wVkCSzhUhoPK_Kcrm0A"
+		}
+	]
+}

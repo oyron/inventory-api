@@ -14,4 +14,10 @@ spec:
         - name: http
           port: 8080
       publicPort: http
+    - name: api-noauth
+      src: "python"
+      ports:
+        - name: http
+          port: 8080
+      publicPort: http
       

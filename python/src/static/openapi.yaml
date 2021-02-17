@@ -1,0 +1,152 @@
+openapi: '3.0.1'
+info:
+  title: Inventory API
+  description: Inventory API - Demo API
+  version: 1.0.0
+  termsOfService: 'https://api-inventory-single.playground.radix.equinor.com/terms.html'
+  contact:
+    name: 'Øyvind Rønne'
+    url: 'https://github.com/equinor/api-strategy'
+    email: oyron@equinor.com
+servers:
+  - url: 'https://api-dev.gateway.equinor.com/inventory-demo'
+  - url: 'https://api-inventory-single.playground.radix.equinor.com/api'
+tags:
+  - name: inventory
+    description: An inventory of books
+paths:
+  /books:
+    get:
+      tags:
+        - inventory
+      summary: Return all books
+      operationId: getBooks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+                  
+    post:
+        tags:
+          - inventory
+        summary: Add a new book to the inventory
+        operationId: addBook
+        requestBody:
+          description: bookData object that needs to be added to the inventory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookData'
+        responses:
+          '201':
+            description: Created
+            content:
+              application/json:
+                schema:
+                  items:
+                    $ref: '#/components/schemas/Book'
+                    
+  /books/{id}:
+    get:
+      tags:
+        - inventory
+      summary: Get a specific book
+      operationId: getBook
+      parameters:
+        - name: id
+          in: path
+          description: Book id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Book'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+
+    put:
+      tags:
+        - inventory
+      summary: Update existing book
+      operationId: updateBook
+      parameters:
+        - name: id
+          in: path
+          description: Book id
+          schema:
+            type: integer
+          required: true
+      requestBody:
+          description: bookData object that needs to be added to the inventory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookData'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Book'
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+
+    delete:
+      tags:
+        - inventory
+      summary: Delete existing book
+      operationId: deleteBook
+      parameters:
+        - name: id
+          in: path
+          description: Book id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '204':
+          description: No content
+        '400':
+          description: Bad request
+        '404':
+          description: Not found
+
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+    BookData:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+  
+externalDocs:
+  description: GitHub repository
+  url: 'https://github.com/oyron/inventory-api-python'
