@@ -3,14 +3,14 @@ info:
   title: Inventory API
   description: Inventory API - Demo API
   version: 1.0.0
-  termsOfService: 'https://api-inventory-single.playground.radix.equinor.com/terms.html'
+  termsOfService: 'https://api-noauth-inventory-single.playground.radix.equinor.com/terms.html'
   contact:
     name: 'Øyvind Rønne'
     url: 'https://github.com/equinor/api-strategy'
     email: oyron@equinor.com
 servers:
   - url: 'https://api-dev.gateway.equinor.com/inventory-demo'
-  - url: 'https://api-inventory-single.playground.radix.equinor.com/api'
+  - url: 'https://api-noauth-inventory-single.playground.radix.equinor.com/api'
 tags:
   - name: inventory
     description: An inventory of books
