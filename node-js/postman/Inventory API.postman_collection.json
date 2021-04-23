@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "277a7779-0fb5-45c4-8d81-063aa80ea904",
+		"_postman_id": "3b0e3f7b-4677-42ba-8c9d-28e75e0c7ca0",
 		"name": "Inventory API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10,6 +10,19 @@
 			"item": [
 				{
 					"name": "Get books",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -27,6 +40,19 @@
 				},
 				{
 					"name": "Get book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -45,6 +71,19 @@
 				},
 				{
 					"name": "Add book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"  pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -71,6 +110,56 @@
 				},
 				{
 					"name": "Delete book",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const hostUrl = pm.environment.get(\"HOST URL\");",
+									"const token = pm.collectionVariables.get(\"TOKEN\");",
+									"",
+									"pm.sendRequest(",
+									"    {",
+									"        url: pm.environment.get(\"HOST URL\") + \"/books\",",
+									"        method: \"POST\",",
+									"        header: {",
+									"            \"Authorization\": \"Bearer \" + pm.collectionVariables.get(\"TOKEN\"),",
+									"            \"Content-Type\": \"application/json\"",
+									"        },",
+									"        body: {",
+									"            mode: 'raw',",
+									"            raw: JSON.stringify({ title: \"Dummy Title\", author: \"Dummy Author\" })",
+									"        }",
+									"    },",
+									"    function (err, res) {",
+									"        if (err) {",
+									"            console.error(err);",
+									"        }",
+									"        else {",
+									"            pm.collectionVariables.set(\"DEL_ID\", res.json().id);",
+									"        }",
+									"    }",
+									");",
+									"",
+									"pm.sendRequest(\"https://postman-echo.com/get\", function (err, response) {",
+									"    console.log(response.json());",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -79,13 +168,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{HOST URL}}/books/2",
+							"raw": "{{HOST URL}}/books/{{DEL_ID}}",
 							"host": [
 								"{{HOST URL}}"
 							],
 							"path": [
 								"books",
-								"2"
+								"{{DEL_ID}}"
 							]
 						}
 					},
@@ -93,6 +182,19 @@
 				},
 				{
 					"name": "Update book",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -117,6 +219,43 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Create reset operation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{HOST URL}}/reset-operation",
+							"host": [
+								"{{HOST URL}}"
+							],
+							"path": [
+								"reset-operation"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		}
@@ -153,12 +292,12 @@
 	],
 	"variable": [
 		{
-			"key": "HOST URL",
-			"value": "http://localhost:3100"
+			"key": "TOKEN",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyIsImtpZCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyJ9.eyJhdWQiOiJhcGk6Ly9jMWQ4NWJkMy1lMDBlLTQ5MmItOWI1Yi1lOGNkODFjNWE3NDIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8zYWE0YTIzNS1iNmUyLTQ4ZDUtOTE5NS03ZmNmMDViNDU5YjAvIiwiaWF0IjoxNjE5MTcwNDQ1LCJuYmYiOjE2MTkxNzA0NDUsImV4cCI6MTYxOTE3NDM0NSwiYWNyIjoiMSIsImFpbyI6IkFVUUF1LzhUQUFBQXl0a3owbi9UQzRZUWR2VGJjUklaRkVVOW8wQ1lqZ3Q1Y1p6bXJqbDVnVEhYRWdWcTk0VGh5eGNpdFFaSFNWWEQybGpoMkRYV0pnMHE5ODR6ckpWQmJBPT0iLCJhbXIiOlsicHdkIiwibWZhIl0sImFwcGlkIjoiYzFkODViZDMtZTAwZS00OTJiLTliNWItZThjZDgxYzVhNzQyIiwiYXBwaWRhY3IiOiIwIiwiZmFtaWx5X25hbWUiOiJSw7hubmUiLCJnaXZlbl9uYW1lIjoiw5h5dmluZCIsImlwYWRkciI6IjE4NS4xMzguMzUuMTIwIiwibmFtZSI6IsOYeXZpbmQgUsO4bm5lIiwib2lkIjoiMGM2NWQyMjAtZDUxNy00ZjZjLWI1NDMtZDk0NTdkZjAwYjFlIiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTIyMDUyMzM4OC0xMDg1MDMxMjE0LTcyNTM0NTU0My0xMjAyOTY3IiwicmgiOiIwLkFRSUFOYUtrT3VLMjFVaVJsWF9QQmJSWnNOTmIyTUVPNEN0Sm0xdm96WUhGcDBJQ0FHNC4iLCJzY3AiOiJJbnZlbnRvcnkuYm9va3MuUmVhZFdyaXRlIiwic3ViIjoibjA2RTVMbHdNVzF6emxubWNYeWI0c3ZWdnBndDNySmxwRDVHclhpLWNoRSIsInRpZCI6IjNhYTRhMjM1LWI2ZTItNDhkNS05MTk1LTdmY2YwNWI0NTliMCIsInVuaXF1ZV9uYW1lIjoiT1lST05AZXF1aW5vci5jb20iLCJ1cG4iOiJPWVJPTkBlcXVpbm9yLmNvbSIsInV0aSI6InpBYmp3WlpSSzBXRm5oUGtrTlV6QUEiLCJ2ZXIiOiIxLjAifQ.HREuS2a3sfSJvXMlu2JjTexZaLdUjMnPtcfuHaGg1RqhZoHpJiuMkzpjf8BWFcE1_M3l75tp6TV5bAmzwH1NQx4w8S7lLkkfTeSQ2xRqVK7v40c-y8HgNr7RWGNEyOf-swe0VlDsPRi7MTxul_qzp8-e8qwu5McrTc3l6XQmELe6EUISliwCBiuzweYF7ChxB_3h0pM6TvBzuuzKsobUim7J1GVyRpfphSf7rZ6rclnKXPDcx_J97bmKC0dfxRXQGPCNczWl_b7WPteQmDctLU_rkJIjRgNj-_Bk55uorwcbsyYceS6NsETbXAqRaanfAMFOred8Fq8_L2ys7Sf19A"
 		},
 		{
-			"key": "TOKEN",
-			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyIsImtpZCI6Im5PbzNaRHJPRFhFSzFqS1doWHNsSFJfS1hFZyJ9.eyJhdWQiOiJhcGk6Ly9jMWQ4NWJkMy1lMDBlLTQ5MmItOWI1Yi1lOGNkODFjNWE3NDIiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC8zYWE0YTIzNS1iNmUyLTQ4ZDUtOTE5NS03ZmNmMDViNDU5YjAvIiwiaWF0IjoxNjExNTc3Mjc1LCJuYmYiOjE2MTE1NzcyNzUsImV4cCI6MTYxMTU4MTE3NSwiYWNyIjoiMSIsImFpbyI6IkFVUUF1LzhTQUFBQXhwWGlnN1pFY2VkTWxqMEludWZsciszTDNURmZnNWFZc3g2aXdOb3BWbERpQURPbEcweGJLUkVvTDQyRDlKQUVDVEtxaVlieVRwdHQzVmw2VkFZMVRBPT0iLCJhbXIiOlsicnNhIiwibWZhIl0sImFwcGlkIjoiNDUxYjAwMDktMmRmYi00YTk5LWIyOWQtOTY5N2FhMDI0OTFmIiwiYXBwaWRhY3IiOiIwIiwiZmFtaWx5X25hbWUiOiJSw7hubmUiLCJnaXZlbl9uYW1lIjoiw5h5dmluZCIsImlwYWRkciI6IjE4NS4xMzguMzUuMTIwIiwibmFtZSI6IsOYeXZpbmQgUsO4bm5lIiwib2lkIjoiMGM2NWQyMjAtZDUxNy00ZjZjLWI1NDMtZDk0NTdkZjAwYjFlIiwib25wcmVtX3NpZCI6IlMtMS01LTIxLTIyMDUyMzM4OC0xMDg1MDMxMjE0LTcyNTM0NTU0My0xMjAyOTY3IiwicmgiOiIwLkFBQUFOYUtrT3VLMjFVaVJsWF9QQmJSWnNBa0FHMFg3TFpsS3NwMldsNm9DU1I4Q0FHNC4iLCJzY3AiOiJJbnZlbnRvcnkuYm9va3MuUmVhZFdyaXRlIiwic3ViIjoibjA2RTVMbHdNVzF6emxubWNYeWI0c3ZWdnBndDNySmxwRDVHclhpLWNoRSIsInRpZCI6IjNhYTRhMjM1LWI2ZTItNDhkNS05MTk1LTdmY2YwNWI0NTliMCIsInVuaXF1ZV9uYW1lIjoiT1lST05AZXF1aW5vci5jb20iLCJ1cG4iOiJPWVJPTkBlcXVpbm9yLmNvbSIsInV0aSI6IlZQNl9rSm5wWGtDeGg3bk1QWHRpQUEiLCJ2ZXIiOiIxLjAifQ.NqrVMSzsIEsifU4IEuJq028agHJBNbBprXy8-yLCSxw1rk8PMIu5CoHyIY1oP0KpRvT0o4jR5e5fSREXHFq_28z-2rr0qLhr0ysa88K-xafyY_Ki7BtSF_K6cNHsMCg-TuJJ9yfUOwPHSb3Is7lqztfIe0vN0Nyl7n3j83ZYSaitZR2AgW6r-wtvYU6QOO-Vd8ALs6zFIoltl4h4VhAcmJkOxvB7SMGetNljAWuffNs0_ACZLuLbPOJmV3cjOmEvZLbqpfrSk6IsmHyotYYxuKDn8qopbqgOpTvmXxrhURLj4IVE3_wqsae_IpQnpjDYhj1wVkCSzhUhoPK_Kcrm0A"
+			"key": "DEL_ID",
+			"value": "2"
 		}
 	]
 }

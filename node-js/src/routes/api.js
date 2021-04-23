@@ -12,10 +12,11 @@ function api(authModule) {
     router.get('/books/:id', getBook);
     router.put('/books/:id', updateBook);
     router.delete('/books/:id', deleteBook);
+    router.post('/reset-operation', resetBookInventory);
     router.use(unknownRouteHandler);
     router.use(errorHandler);
 
-    const bookInventory = new BookInventory();
+    let bookInventory = new BookInventory();
 
     function getBooks(_req, res) {
         res.send(bookInventory.getAllBooks());
@@ -59,6 +60,11 @@ function api(authModule) {
         else {
             res.status(404).send(`Book with id ${bookId} not found`);
         }
+    }
+
+    function resetBookInventory(_req, res) {
+        bookInventory = new BookInventory();
+        res.sendStatus(204);
     }
 
     function logRequest(req, _res, next) {
