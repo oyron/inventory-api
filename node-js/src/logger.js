@@ -1,8 +1,7 @@
 const {format, createLogger, transports} = require('winston');
 const dateformat = require('dateformat');
-const _ = require('lodash');
 const logLevel = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'debug';
-const colorize = !_.isNil(process.env.COLORIZE_LOG) ? (process.env.COLORIZE_LOG === 'true') : false;
+const colorize = process.env.COLORIZE_LOG ? true : false;
 
 const levelToUppercaseFormat = format(info => {
     info.level = info.level.toUpperCase();

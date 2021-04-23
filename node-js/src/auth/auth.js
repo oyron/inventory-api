@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const jwksRsa = require('jwks-rsa');
+const logger = require("../logger");
 
 const jwksClient = jwksRsa({
     jwksUri: 'https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/discovery/v2.0/keys'
@@ -34,6 +35,11 @@ const verifyToken = (req, res, next) => {
 
         jwt.verify(token, getKey, validateOptions, function(err, decoded) {
             if (err || ! validScope(decoded)) {
+                let payloadLog = '';
+                if (Object.keys(req.body).length > 0) {
+                    payloadLog = 'Payload: ' + JSON.stringify(req.body);
+                }
+                logger.warn(`Invalid token: ${req.method} ${req.url} ${payloadLog}`);
                 return res.status(403).send("Invalid access token");
             }
             //req.user = decoded;
