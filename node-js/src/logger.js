@@ -1,8 +1,8 @@
 const {format, createLogger, transports} = require('winston');
 const dateformat = require('dateformat');
-const path = require('path');
+const _ = require('lodash');
 const logLevel = process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'debug';
-const logToFile = process.env.LOG_TO_FILE;
+const colorize = !_.isNil(process.env.COLORIZE_LOG) ? (process.env.COLORIZE_LOG === 'true') : false;
 
 const levelToUppercaseFormat = format(info => {
     info.level = info.level.toUpperCase();
@@ -22,26 +22,22 @@ const commonFormat = format.combine(
     })
 );
 
-const consoleFormat = format.combine(
+const colorizedFormat = format.combine(
     levelToUppercaseFormat(),
     format.colorize(),
     commonFormat
 );
 
-const logFileFormat = format.combine(
+const plainFormat = format.combine(
     levelToUppercaseFormat(),
     commonFormat
 );
 
-const consoleTransport = new transports.Console({format: consoleFormat});
-const fileTransport = new transports.File({
-    filename: path.join(__dirname, 'server.log'),
-    format: logFileFormat
-});
+const consoleTransport = colorize ? new transports.Console({format: colorizedFormat}) : new transports.Console({format: plainFormat});
 
 const logger = createLogger({
         level: logLevel,
-        transports: [logToFile ? fileTransport : consoleTransport]
+        transports: consoleTransport
     })
 ;
 
