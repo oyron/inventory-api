@@ -14,8 +14,9 @@ function getKey(header, callback){
 }
 
 function validScope(decodedToken) {
-    const scope = "Inventory.books.ReadWrite";
-    return decodedToken && "scp" in decodedToken && decodedToken.scp.includes(scope);
+    const readWriteScope = "Inventory.books.ReadWrite";
+    const userImpersonationScope = "user_impersonation";
+    return decodedToken && "scp" in decodedToken && (decodedToken.scp.includes(readWriteScope) || decodedToken.scp.includes(userImpersonationScope));
 }
 
 const validateOptions = {
