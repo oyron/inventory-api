@@ -19,7 +19,7 @@ function validScope(decodedToken) {
 }
 
 const validateOptions = {
-    "audience" : "api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742",
+    "audience" : "https://api-inventory-single.playground.radix.equinor.com",
     "issuer": "https://sts.windows.net/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/",
     "maxAge": "1h"
 };

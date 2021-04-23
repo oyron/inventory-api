@@ -21,7 +21,7 @@ paths:
         - inventory
       summary: Return all books
       security: 
-        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]
+        - oAuth2: [https://api-inventory-single.playground.radix.equinor.com/Inventory.books.ReadWrite]
       operationId: getBooks
       responses:
         '200':
@@ -42,7 +42,7 @@ paths:
           - inventory
         summary: Add a new book to the inventory
         security: 
-        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]
+        - oAuth2: [https://api-inventory-single.playground.radix.equinor.com/Inventory.books.ReadWrite]
         operationId: addBook
         requestBody:
           description: bookData object that needs to be added to the inventory
@@ -69,7 +69,7 @@ paths:
         - inventory
       summary: Get a specific book
       security: 
-        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]      
+        - oAuth2: [https://api-inventory-single.playground.radix.equinor.com/Inventory.books.ReadWrite]      
       operationId: getBook
       parameters:
         - name: id
@@ -100,7 +100,7 @@ paths:
         - inventory
       summary: Update existing book
       security: 
-        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]
+        - oAuth2: [https://api-inventory-single.playground.radix.equinor.com/Inventory.books.ReadWrite]
       operationId: updateBook
       parameters:
         - name: id
@@ -137,7 +137,7 @@ paths:
         - inventory
       summary: Delete existing book
       security: 
-        - oAuth2: [api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite]
+        - oAuth2: [https://api-inventory-single.playground.radix.equinor.com/Inventory.books.ReadWrite]
       operationId: deleteBook
       parameters:
         - name: id
@@ -167,7 +167,7 @@ components:
         implicit:
           authorizationUrl: https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/v2.0/authorize
           scopes:
-            api://c1d85bd3-e00e-492b-9b5b-e8cd81c5a742/Inventory.books.ReadWrite: Read and write to book inventory
+            https://api-inventory-single.playground.radix.equinor.com/Inventory.books.ReadWrite: Read and write to book inventory
   schemas:
     Book:
       type: object
