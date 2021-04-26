@@ -25,11 +25,13 @@ const validateOptions = {
     "maxAge": "1h"
 };
 
+const wwwAuthenticateResponseHeader = 'Bearer realm="Inventory API" authorization_uri="https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/authorize" resource_id="https://api-inventory-single.playground.radix.equinor.com"';
+
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (! authHeader) {
-        res.set('WWW-Authenticate', 'Bearer realm="Inventory API" authorization_uri="https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/authorize" resource_id="c1d85bd3-e00e-492b-9b5b-e8cd81c5a742"');
+        res.set('WWW-Authenticate', wwwAuthenticateResponseHeader);
         res.status(401).send("Missing access token");
     }
     else{
@@ -41,7 +43,7 @@ const verifyToken = (req, res, next) => {
                     payloadLog = 'Payload: ' + JSON.stringify(req.body);
                 }
                 logger.warn(`Invalid token: ${req.method} ${req.url} ${payloadLog}`);
-                res.set('WWW-Authenticate', 'Bearer realm="Inventory API" authorization_uri="https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/authorize" resource_id="c1d85bd3-e00e-492b-9b5b-e8cd81c5a742", error="invalid_token"');
+                res.set('WWW-Authenticate', wwwAuthenticateResponseHeader + ' error="invalid_token"');
                 return res.status(403).send("Invalid access token");
             }
             //req.user = decoded;
