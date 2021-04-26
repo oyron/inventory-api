@@ -19,13 +19,17 @@ function validScope(decodedToken) {
     return decodedToken && "scp" in decodedToken && (decodedToken.scp.includes(readWriteScope) || decodedToken.scp.includes(userImpersonationScope));
 }
 
-const validateOptions = {
+/*const validateOptions = {
     "audience" : "https://api-inventory-single.playground.radix.equinor.com",
     "issuer": "https://sts.windows.net/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/",
     "maxAge": "1h"
+};*/
+
+const validateOptions = {
+    "issuer": "https://sts.windows.net/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/"
 };
 
-const wwwAuthenticateResponseHeader = 'Bearer realm="Inventory API" authorization_uri="https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/authorize" resource_id="https://api-inventory-single.playground.radix.equinor.com"';
+const wwwAuthenticateResponseHeader = 'Bearer realm="Inventory API" authorization_uri="https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/authorize" resource_id="https://api-dev.gateway.equinor.com/inventory-demo"';
 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -46,6 +50,8 @@ const verifyToken = (req, res, next) => {
                 res.set('WWW-Authenticate', wwwAuthenticateResponseHeader + ' error="invalid_token"');
                 return res.status(403).send("Invalid access token");
             }
+            logger.debug(authHeader);
+            logger.debug(JSON.stringify(decoded));
             //req.user = decoded;
             next();
         });
