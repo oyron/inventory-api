@@ -186,7 +186,11 @@ components:
           type: string
         author:
           type: string
-  
+          
+security:
+  - oAuth2:
+    - https://api-inventory-single.playground.radix.equinor.com/Inventory.books.ReadWrite
+
 externalDocs:
   description: API documentation
   url: 'https://github.com/oyron/inventory-api'
