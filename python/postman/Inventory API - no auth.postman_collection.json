@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "277a7779-0fb5-45c4-8d81-063aa80ea904",
-		"name": "Inventory API",
+		"_postman_id": "aba669aa-acab-4754-9f92-29169f083d6d",
+		"name": "Inventory API - no auth",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -121,16 +121,6 @@
 			]
 		}
 	],
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "{{TOKEN}}",
-				"type": "string"
-			}
-		]
-	},
 	"event": [
 		{
 			"listen": "prerequest",
