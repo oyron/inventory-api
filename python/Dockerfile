@@ -1,14 +1,15 @@
 FROM python:3.8-alpine
 RUN pip install --upgrade pip
-RUN adduser -D worker
-USER worker
+ARG user=9001
 WORKDIR /code
-COPY --chown=worker:worker requirements.txt requirements.txt
-RUN pip install --user -r requirements.txt
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 ENV PATH="/code/.local/bin:${PATH}"
-COPY --chown=worker:worker src/ .
+COPY src/ .
 RUN python3 tests/test_book_inventory.py
 ARG portNumber=8080
 ENV PORT=$portNumber
 EXPOSE $portNumber
+RUN chown -R 1001 /code
+USER 1001
 CMD [ "python3", "./server.py" ]
