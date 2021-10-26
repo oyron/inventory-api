@@ -1,4 +1,4 @@
-FROM node:15-alpine as base
+FROM node:16-alpine as base
 WORKDIR /usr/src/app
 COPY package*.json .
 
@@ -14,5 +14,5 @@ COPY src src
 ARG portNumber=8080
 ENV PORT=$portNumber
 EXPOSE $portNumber
-USER "node"
+USER 1001
 CMD ["node", "src/server.js"]
