@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, jsonify, send_file, make_response, send_from_directory
-from flaskr.book_inventory import BookInventory
+from model.book_inventory import BookInventory
 from flask_cors import CORS
 
 app = Flask(__name__)
