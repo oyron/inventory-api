@@ -2,9 +2,15 @@ import os
 from flask import Flask, request, jsonify, send_file, make_response, send_from_directory
 from model.book_inventory import BookInventory
 from flask_cors import CORS
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from prometheus_client import make_wsgi_app
 
 app = Flask(__name__)
 CORS(app, resources={"*": {"origins": ['http://gui-swagger-editor-single.playground.radix.equinor.com', 'https://gui-swagger-editor-single.playground.radix.equinor.com', 'http://localhost:8080', 'localhost:3100']}})
+
+app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
+    '/metrics': make_wsgi_app()
+})
 
 book_inventory = BookInventory()
 
