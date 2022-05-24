@@ -18,6 +18,9 @@ spec:
           port: 8080
       publicPort: http
     - name: api-noauth
+      environmentConfig:
+        - environment: single
+          monitoring: true
       src: "python"
       ports:
         - name: http
