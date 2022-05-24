@@ -1,6 +1,6 @@
 import unittest
-from context import flaskr
-from flaskr.book_inventory import BookInventory
+from context import model
+from model.book_inventory import BookInventory
 
 
 class TestBookInventory(unittest.TestCase):
