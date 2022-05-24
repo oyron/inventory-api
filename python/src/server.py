@@ -2,17 +2,13 @@ import os
 from flask import Flask, request, jsonify, send_file, make_response, send_from_directory
 from model.book_inventory import BookInventory
 from flask_cors import CORS
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from prometheus_client import make_wsgi_app
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
 CORS(app, resources={"*": {"origins": ['http://gui-swagger-editor-single.playground.radix.equinor.com', 'https://gui-swagger-editor-single.playground.radix.equinor.com', 'http://localhost:8080', 'localhost:3100']}})
 
-app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
-    '/metrics': make_wsgi_app()
-})
-
 book_inventory = BookInventory()
+metrics = PrometheusMetrics(app, group_by='endpoint')
 
 @app.route('/api/books', methods=['GET'])
 def api_get_books():
@@ -20,6 +16,11 @@ def api_get_books():
 
 
 @app.route('/api/books/<book_id>', methods=['GET'])
+@metrics.counter(
+    'cnt_book', 'Number of invocations per book', labels={
+        'book': lambda: request.view_args['book_id'],
+        'status': lambda resp: resp.status_code
+    })
 def api_get_book(book_id):
     return jsonify(book_inventory.get_book(book_id))
 
